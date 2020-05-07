@@ -1,0 +1,14 @@
+{
+  "name": "node-sql",
+  "version": "1.0.0",
+  "description": "manipulation a postgres database using node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Xolani Mgube",
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^8.0.3"
+  }
+}
