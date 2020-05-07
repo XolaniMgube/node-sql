@@ -1,12 +1,14 @@
-const { Client } = require("pg");
-const client = new Client({
-  user: "user",
-  host: "localhost",
-  database: "db",
-  password: "pass",
-  port: 5432,
-});
-
+require('dotenv').config()
+const {Client} = require("pg");
+const path = require('path');
+ const client = new Client(//{
+//   user: "user",
+//   host: "localhost",
+//   database: "db",
+//   password: "pass",
+//   port: 5432,
+// }
+);
 class Visitors {
 
     // Starting connection
@@ -18,11 +20,16 @@ class Visitors {
     // viewing the visitor table on console
     async viewTable() {
         // await client.connect()
-        console.log("Connected successfully.")
-        let results = await client.query("select * from visitors")
-        console.table(results.rows)
+        // let results = await client.query("select * from visitors")
+        // console.log(results.rows)
         // await client.end()
-        console.log("Client disconnected successfully.")
+        
+        await client.query("SELECT * from visitors",(err,res)=>{
+            console.log(res.rows[0])
+            // console.table(res.rows)
+            // console.table(results.rows)
+            client.end()
+        })
     }
     
 
@@ -124,12 +131,13 @@ class Visitors {
 let visitor1 = new Visitors()
 
 
-// visitor1.connect()
-// visitor1.addVisitor("Busisiwe", 17, "3-03-200", "20:00", "xolani", "I do not know")
+visitor1.connect()
+visitor1.viewTable()
+// visitor1.addVisitor("Rapelang", 17, "3-03-200", "20:00", "xolani", "I do not know")
 // visitor1.deleteAVisitor(7)
 // // visitor1.deleteAllVisitors()
 // visitor1.updateVisitor(2, "Busisiwe", 17, "3-03-200", "20:00", "xolani", "I do not know", 8)
-// // visitor1.viewOneVisitor(1)
+// visitor1.viewOneVisitor(1)
 // .then (() => visitor1.end())
 
 

@@ -9,6 +9,7 @@
   "author": "Xolani Mgube",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "pg": "^8.0.3"
   }
 }
