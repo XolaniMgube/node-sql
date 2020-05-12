@@ -1,31 +1,32 @@
-require('dotenv').config()
-const {Client} = require("pg");
+const cTable = require('console.table')
 const path = require('path');
- const client = new Client(//{
-//   user: "user",
-//   host: "localhost",
-//   database: "db",
-//   password: "pass",
-//   port: 5432,
-// }
-);
+require('dotenv').config({path: '../.env'})
+const {Client} = require("pg");
+
+ const client = new Client({
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT,
+});
 class Visitors {
 
     // Starting connection
-    async connect() {
-        await client.connect()
-    }
+    // async connect() {
+    //     await client.connect()
+    // }
     
 
     // viewing the visitor table on console
     async viewTable() {
-        // await client.connect()
+        await client.connect()
         // let results = await client.query("select * from visitors")
         // console.log(results.rows)
         // await client.end()
         
         await client.query("SELECT * from visitors",(err,res)=>{
-            console.log(res.rows[0])
+            console.table(res.rows)
             // console.table(res.rows)
             // console.table(results.rows)
             client.end()
@@ -122,23 +123,24 @@ class Visitors {
 
 
     // Ending the connection 
-    async end() {
-        await client.end()
-    }
+    // async end() {
+    //     await client.end()
+    // }
 
 }
 
 let visitor1 = new Visitors()
 
 
-visitor1.connect()
+// visitor1.connect()
 visitor1.viewTable()
-// visitor1.addVisitor("Rapelang", 17, "3-03-200", "20:00", "xolani", "I do not know")
+// visitor1.addVisitor("Rapelang", 100, "3-03-200", "20:00", "xolani", "I do not know")
 // visitor1.deleteAVisitor(7)
 // // visitor1.deleteAllVisitors()
 // visitor1.updateVisitor(2, "Busisiwe", 17, "3-03-200", "20:00", "xolani", "I do not know", 8)
 // visitor1.viewOneVisitor(1)
 // .then (() => visitor1.end())
+// visitor1.end()
 
 
 module.exports = Visitors
