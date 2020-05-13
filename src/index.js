@@ -16,25 +16,66 @@ const client = new Client({
 });
 
 class Visitors {
+    constructor(visitor_name, visitor_age, date_of_visit, time_of_visit, assisted_by, comments) {
+        this.name = visitor_name;
+        this.age = visitor_age;
+        this.date = date_of_visit;
+        this.time = time_of_visit;
+        this.assistedBy = assisted_by;
+        this.comments = comments
+    }
+
 
     // viewing the visitor table on console
     async viewTable() {
-        await client.connect()
-        await client.query("SELECT * from visitors", (err, res) => {
-            console.table(res.rows)
-            client.end()
-        })
+        try{
+            await client.connect()
+            await client.query("BEGIN")
+            let results = await client.query("select * from visitors")
+            
+            return await results.rows[0].visitor_name
+            
+
+        } catch (ex) {
+            console.log("Failed to view table" + ex)
+        } finally {
+            await client.end()
+        }
     }
 
 
     // Adding a visitor to the database
-    async addVisitor(visitorName,
-        visitorAge, dateOfVisit, timeOfVisit, assistedBy, comments) {
+    // async addVisitor(visitorName,
+    //     visitorAge, dateOfVisit, timeOfVisit, assistedBy, comments) {
+    //     try {
+    //         await client.connect()
+    //         await client.query("BEGIN")
+    //         await client.query("insert into visitors (visitor_name, visitor_age, date_of_visit, time_of_visit, assisted_by, comments) values ($1, $2, $3, $4, $5, $6)",
+    //             [visitorName, visitorAge, dateOfVisit, timeOfVisit, assistedBy, comments])
+    //         console.log("Inserted a new row")
+    //         await client.query("COMMIT")
+    //     } catch (ex) {
+    //         console.log("Failed to add visitor " + ex)
+    //     } finally {
+    //         await client.end()
+    //     }
+    // }
+
+     // Adding a visitor to the database
+     async addVisitor() {
         try {
             await client.connect()
             await client.query("BEGIN")
             await client.query("insert into visitors (visitor_name, visitor_age, date_of_visit, time_of_visit, assisted_by, comments) values ($1, $2, $3, $4, $5, $6)",
-                [visitorName, visitorAge, dateOfVisit, timeOfVisit, assistedBy, comments])
+                [
+                    this.name, 
+                    this.age, 
+                    this.date, 
+                    this.time, 
+                    this.assistedBy, 
+                    this.comments
+                ]
+            )
             console.log("Inserted a new row")
             await client.query("COMMIT")
         } catch (ex) {
@@ -100,8 +141,10 @@ class Visitors {
             await client.connect()
             await client.query("BEGIN")
             const results = await client.query("select * from visitors where visitor_id = $1", [visitorId])
-            console.table(results.rows)
+            console.log(results.rows[0].visitor_name)
+            
             await client.query("COMMIT")
+            // return results
         } catch (ex) {
             console.log("Failed to view visitor" + ex)
         } finally {
@@ -111,16 +154,29 @@ class Visitors {
 
 }
 
-let visitorTable = new Visitors()
+let visitorTable = new Visitors("Xolani", 22, "3-03-200", "20:00", "Njabuli", "Just to test")
+// visitorTable.addVisitor()
+// async function run() {
+//     let data = await visitorTable.viewTable()
+// }
 
-// visitorTable.viewTable()
+// run()
+
+// Promise.resolve(visitorTable.viewTable())
+
+
+// visitorTable.viewTable().visitor_name
+
+// console.log(visitorTable.viewTable())
+
+
+// visitorTable.viewTable().then(function(result) {
+//     console.log(result)
+// })
 // visitorTable.addVisitor("Rapelang", 99, "3-03-200", "20:00", "xolani", "I do not know")
 // visitorTable.deleteAVisitor(13)
 // visitorTable.deleteAllVisitors()
 // visitorTable.updateVisitor("Xolani", 22, "3-03-200", "20:00", "xolani", "I do not know", 19)
-// visitorTable.viewOneVisitor(1)
-
-
-
+// visitorTable.viewOneVisitor(20)
 
 module.exports = Visitors
