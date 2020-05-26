@@ -105,26 +105,14 @@ class Visitors {
 
 }
 
-
-
 let visitorTable = new Visitors()
 
-// visitorTable.viewTable().then(function trying(result) {
-//     console.log(result)
-// })
-
-
-// visitorTable.addVisitor("Rapelang", 99, "3-03-200", "20:00", "xolani", "I do not know")
-// visitorTable.deleteAVisitor(13)
-// visitorTable.deleteAllVisitors()
-// visitorTable.updateVisitor("Xolani", 22, "3-03-200", "20:00", "xolani", "I do not know", 19)
-// visitorTable.viewOneVisitor(20)
-function myFun() {  
+function endConnection() {  
     setTimeout(function() {
         client.end()
     },
     3000)
 }
 
-myFun()
+endConnection()
 module.exports = Visitors, Client
