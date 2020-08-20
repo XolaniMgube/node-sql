@@ -42,9 +42,4 @@ describe("Testing query commands and manipulating database", () => {
         
     })
 
-    it("should delete all visitors from the table", async() => {
-        const deleteEveryVisitor = await table.deleteAllVisitors()
-        expect(deleteEveryVisitor[0].visitor_name).toEqual("Xolani")
-    })
-
 })
